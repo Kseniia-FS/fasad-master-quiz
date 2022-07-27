@@ -1,0 +1,2412 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<?php wp_head() ?>
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0">
+
+     
+   
+</head>
+<?php echo get_field('metrics', 'options'); ?>
+<body>
+
+    <style>
+      :root{
+        --bg-main: url('<?php echo get_field('bg-right') ?>');
+/*         --bg-secondary: url('<?php echo get_field('bg-left') ?>'); */
+      }
+    </style>
+
+    <style>
+      :root{
+		  --next-arrow: url("data:image/svg+xml,%3Csvg version='1.1' id='Слой_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 21.8 14.1' style='enable-background:new 0 0 21.8 14.1;' xml:space='preserve'%3E%3Cstyle type='text/css'%3E .st0%7Bfill-rule:evenodd;clip-rule:evenodd;fill:<?php echo str_replace('#', '%23', get_field('colorfont', 'options')) ?>;%7D .st1%7Bopacity:0.4;fill-rule:evenodd;clip-rule:evenodd;fill:<?php echo str_replace('#', '%23', get_field('colorfont', 'options')) ?>;enable-background:new ;%7D .st2%7Bopacity:0.25;fill-rule:evenodd;clip-rule:evenodd;fill:<?php echo str_replace('#', '%23', get_field('colorfont', 'options')) ?>;enable-background:new ;%7D%0A%3C/style%3E%3Cpath id='bupath-1' class='st0' d='M21.8,7.1L21.8,7.1l-6.9,7L13.8,13l5.9-5.9l-5.9-6L14.9,0L21.8,7.1L21.8,7.1z'/%3E%3Cpath id='bupath-1_1_' class='st1' d='M14.9,7.1L14.9,7.1l-6.9,7L6.9,13l5.9-5.9l-5.9-6L8,0L14.9,7.1L14.9,7.1z'/%3E%3Cpath id='bupath-1_2_' class='st2' d='M8,7.1L8,7.1l-6.9,7L0,13l5.9-5.9L0,1.1L1.1,0L8,7.1L8,7.1z'/%3E%3C/svg%3E%0A");
+		--btn-font-color: <?php echo get_field('colorfont', 'options') ?>;  
+        <?php if (get_field('theme') == 'light'): ?>
+    --bg-color: #fff;
+    --popup-bg: rgba(255, 255, 255, 0.95);
+    --font-color: #282828;
+    --light-font: #585858;
+    --dark-font: #262626;
+    --transparent: 255, 255, 255, 0;
+          <?php else: ?>
+            --bg-color: #000;
+    --popup-bg: rgba(0, 0, 0, 0.95);
+    --light-font: #fff;
+    --dark-font: #fff;
+    --transparent: 0, 0, 0, 0;
+	--font-color: #fff;
+    <?php endif ?>
+    --font-family: 'Stolzl', 'sans-serif';
+    --transition: .3s all;
+    --grad-from: <?php echo get_field('grad', 'options')['from'] ?>;
+    --grad-to: <?php echo get_field('grad', 'options')['to'] ?>;
+    --accent-color: <?php echo get_field('color', 'options') ?>;
+    <?php 
+    $hex = get_field('color', 'options');
+    list($r, $g, $b) = sscanf($hex, "#%02x%02x%02x");
+    ?>
+    --accent-color-rgb: <?php echo $r . ',' . $g . ',' . $b ?>;
+    <?php 
+    $hex = get_field('grad', 'options')['from'];
+    list($r, $g, $b) = sscanf($hex, "#%02x%02x%02x");
+    ?>
+    --darker-color-rgb: rgb(<?php echo (int) ((int)$r * 0.8) . ',' . (int) ((int)$g * 0.8) . ',' . (int) ((int)$b * 0.8) ?>);
+    }
+    .first-screen__bg::after{
+		position: absolute;
+		content: '';
+		height: 100%;
+		width: 100%;
+		top: 0;
+		left :0;
+        background-image:  
+        -webkit-gradient(linear, left top, right top, from(var(--bg-color)), color-stop(30%, var(--bg-color)), color-stop(70%, rgba(var(--transparent))), to(rgba(var(--transparent)))), 
+        -webkit-gradient(linear, left bottom, left top, from(var(--bg-color)), color-stop(30%, rgba(var(--transparent))), to(rgba(var(--transparent))));        background-image:  
+        -o-linear-gradient(left, var(--bg-color), var(--bg-color) 30%, rgba(var(--transparent)) 70%, rgba(var(--transparent))), 
+        -o-linear-gradient(bottom, var(--bg-color), rgba(var(--transparent)) 30%, rgba(var(--transparent)));        background-image:  
+        linear-gradient(to right, var(--bg-color), var(--bg-color) 30%, rgba(var(--transparent)) 70%, rgba(var(--transparent))), 
+        linear-gradient(to top, var(--bg-color), rgba(var(--transparent)) 30%, rgba(var(--transparent)))
+		/* var(--bg-main); */
+    }
+		.first-screen__bg img,
+		.first-screen__bg::after{
+			height: 100%;
+			width: 100%;
+			object-fit: cover;
+			object-position: top center;
+		}
+    @media (max-width: 699px){
+       .first-screen__bg{
+            background-size: cover;
+            background-position: center bottom;
+            background-image: linear-gradient(to bottom, var(--bg-color), var(--bg-color) 10%, rgba(var(--transparent))), var(--bg-main);
+        }
+		.first-screen__bg img,
+		.first-screen__bg::after{
+			display: none;
+		}
+   }
+		<?php if (get_field('bg-mobile') != 'fill'): ?>
+		@media (max-width: 449px) {
+		.first-screen__bg{
+			background-image: linear-gradient(to top, var(--bg-color), rgba(var(--transparent)) 23%, rgba(var(--transparent)) 85%, var(--bg-color)) , 
+							  linear-gradient(to top, var(--bg-color), rgba(var(--transparent)) 23%, rgba(var(--transparent)) 80%, var(--bg-color)) , 
+				              var(--bg-main);
+			top: 14rem;
+			left: 0;
+			width: 100vw;
+			height: 20rem;
+			background-position: center top;
+			}
+		.main{
+			margin-top: 18rem;
+		}
+		}
+		<?php endif; ?>
+    .quiz, .policy{
+      --bg-color: #fff;
+      --popup-bg: rgba(255, 255, 255, 0.95);
+      --font-color: #282828;
+      --light-font: #585858;
+      --dark-font: #262626;
+      color: var(--font-color);
+    }
+	
+    <?php if (get_field('theme') == 'dark'): ?>
+      .main__subtitle{
+        background-color: #fff;
+        color: #282828;
+      }
+    <?php endif ?>
+    </style>
+   
+	
+<!-- 	_______________________________________________________________________________________________________________________________________ -->
+	
+	<div style="background: url(https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/bg.jpg) no-repeat top; background-size: cover;" class="main" id="main">
+		<div class="header mb">
+			<div class="container-min header__cont">
+				<div class="logo">
+					<div class="logo__block">
+						<a href="" class="logo__img">
+							<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/05/sale.png" alt="">
+						</a>
+
+						<div class="logo__text">
+							<div class="text fw6">Утепление домов</div>
+							<div class="tsm12 fw4 gray">
+								в Буче, Гостомеле и Ирпене
+							</div>
+						</div>
+					</div>					
+				</div>
+
+						
+				<div class="header-down">
+					<div class="header-down__img mrs">
+						<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/down.png" alt="">
+					</div>
+					<a href="#download" class="tsm13 blue fw6 ttu dotted header-down__text link-scroll">
+						Скачать прайс-лист
+					</a>
+				</div>
+			
+				<div class="header__social-wrap">
+					<div class="tsm13 black mbs">Свяжитесь с нами</div>
+					<div class="social tsm10">
+						<a href="viber://add?number=+380677648039" class="social__item mrm">
+							<span class="social__img mrs">
+								<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/vb.png" alt="">
+							</span>
+							<span class="gray social__text">
+								Viber
+							</span>
+						</a>
+<!-- 						<a href="" class="social__item">
+							<span class="social__img mrs">
+								<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/ws.png" alt="">
+							</span>
+							<span class="gray social__text">
+								WhatsApp
+							</span>
+						</a> -->
+						
+					</div>
+				</div>
+
+				<div class="header-call">
+					<div class="header-call__block tac">
+						<div class="green-text mbs tsm12">
+							<div class="green-text__cir mrs"></div>
+							<div class="green-text__text">
+								звоните
+							</div>		
+						</div>
+						<div class="header-call__ph-block text">
+							<div class="header-call__img mrm">
+								<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/ph.png" alt="">
+							</div>
+							<div class="header-call__wrap col-center">
+								<a href="tel:+380677648039" class="black gt fw7 header-call__num white-space">+380677648039</a>
+<!-- 								<a href="tel:+" class="black gt fw7 header-call__num white-space">+375291110434</a> -->
+							</div>
+						</div>
+					</div>
+				</div>
+				
+
+
+				<button class="btn header-btn btn-call-js" onclick="$('#consult-popup').fadeIn()">
+					<span class="btn-blick"></span>
+					<img class="btn-ico btn-ico_left" src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/ph2.png" alt="">
+					<div class="fw6 tal black tsm13">
+						Перезвоните мне
+					</div>
+				</button>
+
+				<div class="burger__wrap-block" style="display: none">
+					<div class="burger__wrap">
+						Меню
+						<div class="burger">
+							<span></span>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="nav__wrap">
+			<div class="nav-shadow"></div>
+			<div class="close close-nav"></div>
+			<ul class="nav container-min text">
+				<li><a href="#main" class="current-menu-item fw5">Главная</a></li>
+				<li><a href="#test" class="fw5">Расчет стоимости</a></li>
+				<li><a href="#charge" class="fw5">Наши преимущества</a></li>
+				<li><a href="#download" class="fw5">Скачать прайс</a></li>
+				<li><a href="#portfolio" class="fw5">Портфолио</a></li>
+				<li><a href="#contacts" class="fw5">Контакты</a></li> 
+			</ul> 
+		</div>
+
+
+		<div class="container-mm main__cont">
+			<div class="main__info">
+				<h1 class="title-lg fw3 mb">
+					<span class="fwb">
+					     Утепление домов					   
+					</span> <br>
+					с <span class="bg-line">гарантией 5 лет</span>
+				</h1>
+				<div class="gray text fw3 media-center mb">
+					в Киевской области по <br>
+					фиксированной стоимости в договоре
+				</div>
+				<div class="block1">
+					<div class="block1__item mb">
+						<div class="block1__img mrs">
+							<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/ok.png" alt="">
+						</div>
+						<div class="block1__text text lh fw5">
+							<span class="fwb">Полное комплектование</span> <br>
+							строительными, отделочными материалами <br>
+							и инженерным оборудованием;
+						</div>
+					</div>
+					<div class="block1__item mb">
+						<div class="block1__img mrs">
+							<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/ok.png" alt="">
+						</div>
+						<div class="block1__text text lh fw5">
+							<span class="fwb">Скорость выполнения работ</span>, достигаемая <br>
+							хорошим управлением и наличием всех <br>
+							профильных специалистов в штате;
+						</div>
+					</div>
+					<div class="block1__item">
+<!-- 						<div class="block1__img mrs">
+							<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/ok.png" alt="">
+						</div> -->
+						<a href="#quiz_content" class="btn check-block__btn mbm" style="text-align:center;">
+								<span class="btn-blick"></span>
+								<span class="small-text black fw7">
+									<span>
+										Расчитать стоимость утепления
+									</span>
+								</span>
+							</a>
+<!-- 						<div class="block1__text text lh fw5">
+							Возможна <span class="fwb">оплата в кредит.</span>
+						</div> -->
+					</div>
+				</div>
+				
+			</div>
+			<div class="main__house">
+				<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/house.png" alt="">
+			</div>
+			<div class="main__right">
+				<form class="main-card card-js" id="discuss-form">
+					<div class="green-text main-card__green tsm12">
+						<div class="green-text__cir mrs"></div>
+						<div class="green-text__text tsm12 fw3">
+							это бесплатно
+						</div>		
+					</div>
+					<div class="main-card__man">
+						<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/man.png" alt="">
+					</div>
+					<div class="text-md mbm fwb">
+						Обсудите свой проект с <br>
+						инженером с 10 летним опытом
+					</div>
+					<div class="tsm13 gray mb">
+						Оставьте заявку и через несколько <br>
+						минут мы свяжемся с Вами на <br>
+						удобный Вам мессенджер или на e-mail
+					</div>
+					<div class="check-block__form col-center">
+						<div class="check-block mb">
+							<label for="soc1" class="check-block__item mbm">
+								
+								<input type="radio" class="checkbox-inp vit" name='soc' id='soc1' value="Viber" checked>
+						
+								
+								
+								<span class="checkbox-block row-center">
+									<span class="check-block__img mrs">
+										<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/vb.png" alt="">
+									</span>
+									<span class="tsm12 soc-text fw5">
+										Viber
+									</span>
+									
+								</span>
+							</label>
+							
+							<label for="soc2" class="check-block__item mbm">
+								
+								<input type="radio" class="checkbox-inp teg" name='soc' id='soc2' value="Telegram">
+							
+								
+								
+								<span class="checkbox-block row-center">
+									<span class="check-block__img mrs">
+										<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/tg.png" alt="">
+									</span>
+									<span class="tsm12 fw5">
+										Telegram
+									</span>
+									
+								</span>
+							</label>
+							
+							<label for="soc3" class="check-block__item">
+								
+								<input type="radio" class="checkbox-inp wat" name='soc' id='soc3' value="WhatsApp">
+								
+								
+								<span class="checkbox-block row-center">
+									
+									<span class="check-block__img mrs">
+										<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/ws.png" alt="">
+									</span>
+									<span class="tsm12 fw5">
+										WhatsApp
+									</span>
+									
+								</span>
+							</label>
+							
+							<label for="soc4" class="check-block__item">
+								
+								<input type="radio" class="checkbox-inp mail" name='soc' id='soc4' value="На почту">
+							
+								
+								
+								<span class="checkbox-block row-center">
+									<span class="check-block__img mrs">
+										<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/mail.png" alt="">
+									</span>
+									<span class="tsm12 fw5">
+										E-mail
+									</span>
+									
+								</span>
+							</label>
+						</div>
+						
+						<div class="check-block__inputs col-center">
+							<!-- стандарный нейм для форм -->
+							<input type="hidden" value="c" name="title">
+							<input type="tel" class="input tsm13 mbm check-block-btn" name="tel" required placeholder="Ваш телефон в Viber">
+							<input type="text" class="input tsm13 mbm check-block-btn check-block-mail" name="email" placeholder="Ваш E-mail адрес" style="display: none">
+							<button class="btn check-block__btn mbm" type="submit">
+								<span class="btn-blick"></span>
+								<span class="small-text black fw7">
+									<span>
+										Отправить
+									</span>
+								</span>
+							</button>
+							<label for="ptop2" class="check-box mbm">
+								<input type="checkbox" name="" id="ptop2" class="rhide"  checked>
+										
+								<span class="check-line">
+									<span class="check-label">
+										<span class="check-label-act"><img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/check-ok.png" alt=""></span>
+									</span>
+									<span class="tsm10 gray tal fw4">
+										Согласен на	обработку 
+										<a href="#popup-policy" class="gr tdu fw4">персональных данных</a>
+									</span>
+								</span>
+							</label>
+							<div class="call-block col-center">
+								<div class="text mbm tac fw4">или позвоните</div>
+								<a href="tel:+380677648039" class="call-block__item row-center">
+									<div class="call-block__left row-center mrm">
+										<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/ph.png" alt="">
+									</div>
+									<div class="call-block__num fw7 gt black text21">+38 067 764 80 39</div>
+								</a>
+							</div>
+						</div>
+
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+<!-- 	***************************************************************************************************************************************** -->
+	
+	<?php if( have_rows('order') ):
+          while ( have_rows('order') ) : the_row();
+            if( get_row_layout() == 'portfolio' ) : ?>
+<!--               <?php include_once 'template-parts/portfolio.php' ?> -->
+            <?php endif; ?>
+            <?php if( get_row_layout() == 'editor' ) : ?>
+	
+	
+	
+   
+	
+              <section class="container editor">
+                <h2 class="portfolio__title text-center">
+                  <?php echo get_field('editor_title') ?>
+                </h2>
+                <?php the_content() ?>
+              </section>
+            <?php endif; ?>
+            <?php if( get_row_layout() == 'action-call' ) : ?>
+              <?php include_once 'template-parts/action.php' ?>
+            <?php endif; ?>
+            <?php if( get_row_layout() == 'quiz' ) : ?>
+              <div class="open-quiz" id="quiz_content" style="position: relative; z-index: 3;">
+                <h2 class="portfolio__title text-center">
+                  <?php echo get_field('quiz_title') ?>
+                </h2>
+                <?php include_once 'template-parts/quiz.php' ?>
+              </div>
+            <?php endif; ?>
+          <?endwhile;
+     ?>
+    <?php
+      else:
+    ?>
+<!--     <?php include_once 'template-parts/portfolio.php' ?> -->
+    <?php if (get_the_content()): ?>
+    <section class="container editor">
+      <h2 class="portfolio__title text-center">
+        <?php echo get_field('editor_title') ?>
+      </h2>
+      <?php the_content() ?>
+    </section>
+    <?php endif ?>
+    <?php if($portfolio || get_the_content()): ?>
+      
+    <?php endif; ?>
+    <?php if (get_field('quiz_type') == 'open'): ?>
+	    <div class="open-quiz" id="quiz_content" style="position: relative; z-index: 3;">
+			<h2 class="portfolio__title text-center">
+				<?php echo get_field('quiz_title') ?>
+			</h2>
+			<?php include_once 'template-parts/quiz.php' ?>
+		</div>
+    <?php endif; ?>
+    <?php endif; ?>
+    <?php include_once 'template-parts/widget.php' ?>
+    <?php include_once 'template-parts/video.php' ?>
+    
+	<?php
+	if (get_field('quiz_type') == 'closed'):
+	
+	?>
+	    <div class="popup" id="quiz">
+      <div class="popup-wrap" id="quiz_content">
+        <?php include_once 'template-parts/quiz.php' ?>
+      </div>
+    </div>
+	<?php endif; ?>
+
+    <?php include_once 'template-parts/popup.php' ?>
+	
+	<div class="boss section" style="background: url(https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/bg-1.jpg) no-repeat right; background-size: cover;">
+		<h2 class="title-lg tac container-min mlg fw3">
+			<span class="fwb">Мы знаем все</span> об утеплении <br>
+			малоэтажных и высотных домов
+		</h2>
+		<div class="boss__green forest">
+			<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/green.png" alt="зелень">
+		</div>
+		<div class="boss__hamer forest">
+			<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/hamer.png" alt="молоток">
+		</div>
+		<div class="boss__cont container-min">
+			<div class="boss__ruk">
+				<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/boss.png" alt="директор	">
+			</div>			
+			<div class="boss-card boss__card rel">				
+				<div class="boss-card__wrap">
+					<div class="boss-card__quotes">
+						<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/02/quotes.png" alt="">
+					</div>
+					<div class="boss-card__green">
+						<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/green2.png" alt="зелень">
+					</div>
+					<div class="text24 mb tac">
+						Здравствуйте, меня зовут <br>
+						<span class="fwb">Юрий Васильевич</span>
+					</div>
+					<div class="tsm13 fw5 tac mbm">
+						Я - руководитель строительной компании.
+					</div>
+					<div class="tsm13 fw5 tac mbm">
+ 						Мы занимаемся утеплением малоэтажных и высотных<br> домов, 
+						реконструкцией и ремонтом фасадов.
+					</div>
+					<div class="tsm13 fw5 tac mb">
+						С 2009 года мы построили более 30 домов.
+					</div>
+					<div class="text-md fwb fw5 tac mb">
+						Понимая строительный рынок и  <br>
+						современные реалии наша цель: 
+					</div>
+					
+					<div class="block1 mb">
+						<div class="block1__item mbm">
+							<div class="block1__img mrs">
+								<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/ok.png" alt="">
+							</div>
+							<div class="block1__text tsm13 lh fw5">
+								Избавить Вас от стресса и хлопот взяв на себя <br>
+								весь комплекс работ по утеплению дома;
+							</div>
+						</div>
+						<div class="block1__item mbm">
+							<div class="block1__img mrs">
+								<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/ok.png" alt="">
+							</div>
+							<div class="block1__text tsm13 lh fw5">
+								Уложиться в оговоренные сроки;
+							</div>
+						</div>
+						<div class="block1__item">
+							<div class="block1__img mrs">
+								<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/ok.png" alt="">
+							</div>
+							<div class="block1__text tsm13 lh fw5">
+								Не выйти за рамки бюджета.
+							</div>
+						</div>
+					</div>
+					<div class="call-block boss-card__call-block col-center">
+						<div class="fwb text-md mbm tac">Давайте все это обсудим</div>
+						<div class="text mb tac fw4 tac">Звоните мне</div>
+						<a href="tel:+380677648039" class="call-block__item row-center">
+							<div class="call-block__left row-center mrm">
+								<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/ph.png" alt="">
+							</div>
+							<div class="call-block__num fw7 gt black text-md">+38 067 764 80 39</div>
+						</a>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	
+	<div id="garant" class="garant section" style="background: url(https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/bg-2.jpg) no-repeat right top; background-size: cover;">
+		<h2 class="tac fw3 title-lg zi15 mlg">
+			<span class="fwb">Мы гарантируем</span> Ваше минимальное <br>
+			вовлечение в рутину монтажа системы утепления, <br>беря на себя 
+			весь комплекс работ
+		</h2>
+		<div class="garant__cont container-min">
+			<div class="garant__left">
+				<div class="text-md fwb media-center mbm">
+					Вы не рискуете своими деньгами, нервами и временем
+				</div>
+				<div class="text msm media-center">
+					Мы берем на себя полную материальную ответственность по договору <br>
+					за дом, работы, сроки выполнения каждого этапа работы
+				</div>
+				<div class="garant-tab">
+					<div class="garant-tab__left mrsm">
+						<div class="garant-tab__wrap">
+							<div class="garant-tab__wrap2">
+								<div class="garant-tab__tab-item tsm13 current-tab-item">Грунтование поверхности</div>
+								<div class="garant-tab__tab-item tsm13">Приклейка утеплителя</div>
+								<div class="garant-tab__tab-item tsm13">Дюбеление</div>
+								<div class="garant-tab__tab-item tsm13">Армировка сеткой</div>
+								<div class="garant-tab__tab-item tsm13">Грутнование под штукатурку</div>
+								<div class="garant-tab__tab-item tsm13">Нанесение штукатурки</div>
+							</div>
+						</div>						
+					</div>
+					<div class="garant-tab__right">
+						<div class="garant-tab__tab-cont col-center tac">
+							<div class="small-text fwb mbm">Грунтование поверхности</div>
+							<ul class="mbm tsm12 tal">
+								<li>Проектирование</li>
+								<li>Разметка</li>
+								<li>Грунт глубокого <br>проникновения</li>
+<!-- 								<li>Монтаж опалубки.</li>
+								<li>Армирование.</li>
+								<li>Заливка.</li>
+								<li>
+									Гидроизоляция и <br>
+									обратная засыпка.
+								</li> -->
+							</ul>
+							<div class="text-md mb">от <span class="fwb">35 грн/м².</span></div>
+							<button data-title="Грунтование поверхности" class="btn btn-serv-js garant-tab__btn" onclick="$('#consult-popup').fadeIn()">
+								<span class="btn-blick"></span>
+								<span class="tsm13 black fwb">Заказать услугу</span>
+							</button>
+						</div>
+						
+						
+						<div class="garant-tab__tab-cont col-center tac"  style="display: none">
+							<div class="small-text fwb mbm">Приклейка утеплителя</div>
+							<ul class="mbm tsm12 tal">
+								<li>Пенополистерольные<br> плиты</li>
+								<li>Минеральные плиты</li>
+								<li>Экструдированный <br> понополистерол</li>
+								<li>Клеевой раствор</li>
+							
+							</ul>
+							<div class="text-md mb">от <span class="fwb">67 грн/м².</span></div>
+							<button data-title="Приклейка утеплителя" class="btn btn-serv-js garant-tab__btn" onclick="$('#consult-popup').fadeIn()">
+								<span class="btn-blick"></span>
+								<span class="tsm13 black fwb">Заказать услугу</span>
+							</button>
+						</div>
+						
+						
+						<div class="garant-tab__tab-cont col-center tac" style="display: none">
+							<div class="small-text fwb mbm">Дюбеление</div>
+							<ul class="mbm tsm12 tal">
+								<li>Карта дюбеления</li>
+								<li>Дюбель с пластиком</li>
+								<li>Дюбель с металом</li>
+<!-- 								<li>Подшивка свесов крыши (софит)</li>
+								<li>Водосточная система</li> -->
+							
+							</ul>
+							<div class="text-md mb">от <span class="fwb">3 грн/шт.</span></div>
+							<button data-title="Дюбеление" class="btn btn-serv-js garant-tab__btn" onclick="$('#consult-popup').fadeIn()">
+								<span class="btn-blick"></span>
+								<span class="tsm13 black fwb">Заказать услугу</span>
+							</button>
+						</div>
+						<div class="garant-tab__tab-cont col-center tac" style="display: none">
+							<div class="small-text fwb mbm">Армировка сеткой</div>
+							<ul class="mbm tsm12 tal">
+								<li>Щелочестойкая сетка</li>
+								<li>Клеевой раствор</li>
+<!-- 								<li>Оштукатуривание</li>
+								<li>Утепление</li> -->
+								
+							</ul>
+							<div class="text-md mb">от <span class="fwb">35 грн/м².</span></div>
+							<button data-title="Армировка сеткой" class="btn btn-serv-js garant-tab__btn" onclick="$('#consult-popup').fadeIn()">
+								<span class="btn-blick"></span>
+								<span class="tsm13 black fwb">Заказать услугу</span>
+							</button>
+						</div>
+						<div class="garant-tab__tab-cont col-center tac" style="display: none">
+							<div class="small-text fwb mbm">Грутнование под штукатурку</div>
+							<ul class="mbm tsm12 tal">
+								<li>Кварцевый грунт</li>
+								<li>Пигментная паста</li>
+								
+<!-- 								<li>Электромонтажные работы</li>
+								<li>Отопление</li> -->
+								
+							</ul>
+							<div class="text-md mb">от <span class="fwb">35 грн/м².</span></div>
+							<button data-title="Грутнование под штукатурку" class="btn btn-serv-js garant-tab__btn" onclick="$('#consult-popup').fadeIn()">
+								<span class="btn-blick"></span>
+								<span class="tsm13 black fwb">Заказать услугу</span>
+							</button>
+						</div>
+						<div class="garant-tab__tab-cont col-center tac" style="display: none">
+							<div class="small-text fwb mbm">Нанесение <br>штукатурки</div>
+							<ul class="mbm tsm12 tal">
+								<li>Акриловая штукатурка</li>
+								<li>Силиконовая штукатурка</li>
+								<li>Минеральная штукатурка</li>
+								<li>Мозаичная штукатурка</li>
+								<li>Моделируемая штукатурка</li>
+								<li>Структурная краска</li>
+								
+							</ul>
+							<div class="text-md mb">от <span class="fwb">100 грн/м².</span></div>
+							<button data-title="Нанесение штукатурки" class="btn btn-serv-js garant-tab__btn" onclick="$('#consult-popup').fadeIn()">
+								<span class="btn-blick"></span>
+								<span class="tsm13 black fwb">Заказать услугу</span>
+							</button>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<div class="garant__right">
+				<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/02/house.png" alt="дом в разрезе">
+<!-- 				<div class="garant-tab__options">
+			
+					<div class="garant-tab__opt garant-tab__opt_2 rot-text">
+						<div class="rot-text__block white tsm12">
+							Устройство отмостки
+						</div>
+					</div>
+					<div class="garant-tab__opt garant-tab__opt_3 rot-text">
+						<div class="rot-text__block white tsm12">
+							Устройство фундамента
+						</div>
+					</div>
+					<div class="garant-tab__opt garant-tab__opt_4 rot-text">
+						<div class="rot-text__block white tsm12">
+							Монтаж плит перекрытия
+						</div>
+					</div>
+					<div class="garant-tab__opt garant-tab__opt_5 rot-text">
+						<div class="rot-text__block white tsm12">
+							Монтаж опалубки
+						</div>
+					</div>
+				</div> -->
+
+<!--                 <div class="garant-tab__options" style="display: none">
+					<div class="garant-tab__opt garant-tab__opt_1 rot-text">
+						<div class="rot-text__block white tsm12">
+							Возведение стен
+						</div>
+					</div>
+				</div> -->
+            
+
+<!-- 				<div class="garant-tab__options" style="display: none">
+					<div class="garant-tab__opt garant-tab__opt_6 rot-text">
+						<div class="rot-text__block white tsm12">
+							Кровельные работы
+						</div>
+					</div>
+				</div>
+
+				<div class="garant-tab__options" style="display: none">
+					<div class="garant-tab__opt garant-tab__opt_7 rot-text">
+						<div class="rot-text__block white tsm12">
+							Фасадные работы
+						</div>
+					</div>
+				</div> -->
+
+
+<!-- 				<div class="garant-tab__options" style="display: none"> -->
+
+<!-- 				</div> -->
+
+
+			
+
+			</div>
+		</div>
+	</div>
+	
+	<div id="download" class="rel download" style="background: url() left -10vw no-repeat; background-size: auto">
+		<div class="download__money forest">
+			<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/money.png" alt="деньги">
+		</div>
+		<div class="download__cont container-mm">
+			<div class="download__right">
+				<div class="download__green-text green-text rot-text mbm tsm12 fw3">
+					<div class="green-text__cir mrs"></div>
+					<div class="green-text__text rot-text__block">
+						Это бесплатно
+					</div>		
+				</div>
+				<h2 class="fwb title-lg msm">
+					Скачайте актуальный <br>
+					прайс-лист на  Утепление домов				</h2>
+				
+				<div class="download__cot">
+					<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/cot.png" alt="прайс">
+				</div>
+				<form class="download-form rel" id="download-price">
+					<div class="download-form__wrap">
+						<div class="white download__refreshed tsm12 mlg fw3">
+							Обновлен <span class="date-js">15.04.20</span>
+						</div>
+						
+						<div class="text-md tac fw3 mbm">
+							<span class="fwb">Заполните форму,</span> чтобы получить доступ к прайсу <br>
+							на все выполняемые нами виды работ
+						</div>
+						<div class="tsm13 green tac mb">
+							за номером телефона закрепим скидку
+						</div>
+						<div class="download-form__block mb row-center">
+
+							<input type="hidden" name="title" value="Скачайте актуальный прайс-лист">
+							<input type="hidden" name="formname" value="price">
+							<input type="text" required name="tel" placeholder="+380 (--) --- -- --" class="tsm13 download-form__input mr ttu input phone">
+							<button class="btn download-form__input" type="submit">
+								<span class="btn-blick"></span>
+								<span class="tsm13 fw6 black mrm">Скачать прайс</span>
+							</button>
+						</div>
+						<label for="pd2" class="check-box">
+							<input type="checkbox" name="" id="pd2" class="rhide" required="" checked>
+									
+							<span class="check-line">
+								<span class="check-label">
+									<span class="check-label-act"><img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/check-ok.png" alt=""></span>
+								</span>
+								<span class="tsm10 gray tal fw4">
+									Согласен на	обработку 
+									<a href="#popup-policy" class="gr tdu fw4">персональных данных</a>
+								</span>
+							</span>
+						</label>
+					</div>
+				</form>
+				<div class="download-info">
+					<div class="download-info__wrap white col-center tac">
+						<div class="tsm13 mb">
+							Построить свой дом можно не только за <br>
+							собственные средства, но и в кредит
+						</div>
+						<div class="tsm13 fw3 mb">
+							Работаем по государственной программе энергосбережения <br>"Теплый кредит" 
+							
+						</div>
+						<div class="download-info__block row-center tsm13">
+<!-- 							<div class="download-info__item col-center tac">
+								<div class="fw6 mbm">Указ президента №240</div>
+								<a href="" target="_blank" class="ttu tsm12 download-info__link dotted rel">Ознакомиться</a>
+							</div> -->
+							<div class="download-info__item col-center tac">
+								<div class="fw6 mbm">
+									В период вленных действий <br>
+									информайию нужно уточнять
+								</div>
+								<a onclick="$('#consult-popup').fadeIn()"   class="ttu tsm12 download-info__link dotted rel">Ознакомиться</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>			
+		</div>
+	</div>
+	
+	<div id="portfolio" class="lastw">
+		
+		<div class="container-min">
+			<div class="lastw__cont">
+				<div class="section-text">
+					<h2 class="title-lg tac fwb msm">
+						За 2021 год утеплено и <br>
+						отреставрированно <span class="fwb">более 27 объектов</span>
+					</h2>
+					<div class="text24 fw3 tac mlg">
+						Вот некоторые из них
+					</div>
+				</div>
+				<div class="lastw__wrapper">
+					
+					<div id="lastw-slider" class="lastw-slider">
+						
+
+						<div class="lastw-slider__item">
+							<a data-fancybox="g" class="lastw-slider__left fancy-class" href="assets/img/lastw/1-01.jpg" style="background: url(https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/1-01.jpg) no-repeat right; background-size: cover;">								
+							</a>
+							<div class="lastw-slider__want" >
+								<a class="btn btn-call-js" onclick="$('#consult-popup').fadeIn()">
+									<span class="btn-blick"></span>
+									<span class="tsm13 fwb black">Хочу такой</span>
+								</a>
+							</div>
+							
+							
+							<div class="lastw-slider__right">
+								<a href="#smeta" class="green-text link-scroll tsm12">
+									<!-- <div class="green-text__cir mrs"></div> -->
+									<div class="green-text__text gt fw5 tsm12 white tac">
+										Запросить смету <br>
+										этого проекта
+									</div>		
+								</a>
+								<div class="text21 fwb mb">Бетонные работы + монтаж забора</div>
+								<div class="tsm13 mbm"><span class="fwb">Адрес объекта:</span>г.Гомель, ул.Подгорная 93</div>
+								<div class="tsm13 msm"><span class="fwb">Время монтажа:</span> <span class="black tt">	3 дня</span></div>		
+
+								<div class="charact col-center msm">
+									<div class="text24 fwb mbm">Характеристики</div>
+									<div class="charact__block col-center tsm13">
+										<div class="charact__item">
+											<div class="charact__left fwb">Длина </div>
+											<div class="charact__right">50 м</div>
+										</div>
+										<div class="charact__item">
+											<div class="charact__left fwb">Материал</div>
+											<div class="charact__right">Профлист</div>
+										</div>
+										<div class="charact__item">
+											<div class="charact__left fwb">Бетонирование основания</div>
+										
+										</div>
+										<div class="charact__item">
+											<div class="charact__left fwb">Бетонирование столбов</div>
+								
+										</div>
+										<div class="charact__item">
+											<div class="charact__left fwb">Установка направляющих</div>
+								
+										</div>
+										<div class="charact__item">
+											<div class="charact__left fwb">Монтаж профлиста</div>
+								
+										</div>
+							
+									</div>
+								</div>
+								
+								<div class="lastw-slider__btn">
+<!-- 									<a href="#" class="fancy-class btn bord">
+										<span class="btn-blick"></span>
+										<span class="tsm13 fwb black mrm">Отзыв клиента</span>
+									</a> -->
+									<a href="#quiz_content" class="btn link-scroll">
+										<span class="btn-blick"></span>
+										<span class="tsm13 fwb black mrm">Рассчитать в калькуляторе свой проект</span>
+									</a>
+								</div>
+								
+							</div>
+						</div>
+						
+						
+						<div class="lastw-slider__item">
+							<a data-fancybox="g" class="lastw-slider__left fancy-class" href="assets/img/lastw/2-01.jpg" style="background: url(https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/1-01.jpg) no-repeat right; background-size: cover;">								
+							</a>
+							<div class="lastw-slider__want">
+								<button class="btn btn-call-js" onclick="$('#consult-popup').fadeIn()">
+									<span class="btn-blick"></span>
+									<span class="tsm13 fwb black">Хочу такой</span>
+								</button>
+							</div>
+							
+							
+							<div class="lastw-slider__right">
+								<a href="#smeta" class="green-text link-scroll tsm12">
+									<!-- <div class="green-text__cir mrs"></div> -->
+									<div  class="green-text__text gt fw5 tsm12 white tac">
+										Запросить смету <br>
+										этого проекта
+									</div>		
+								</a>
+								<div class="text21 fwb mb">Отделочные работы</div>
+								<div class="tsm13 mbm"><span class="fwb">Адрес объекта:</span>пос.Ченки ул. Октябрьская 88</div>
+								<div class="tsm13 msm"><span class="fwb">Время монтажа:</span> <span class="black tt">120 дней</span></div>
+
+								<div class="charact col-center msm">
+									<div class="text24 fwb mbm">Харакетристики</div>
+									<div class="charact__block col-center tsm13">
+										<div class="charact__item">
+											<div class="charact__left fwb">Отделочные работы под ключ</div>
+											<div class="charact__right">260 кв.м.</div>
+										</div>
+										<div class="charact__item">
+											<div class="charact__left fwb">Демонтажные работы</div>
+						<!--					<div class="charact__right">мягкая черепица</div>-->
+										</div>
+										<div class="charact__item">
+											<div class="charact__left fwb">Монтаж отопления и водоснабжения</div>
+						<!--					<div class="charact__right">ж/б плиты</div>-->
+										</div>
+										<div class="charact__item">
+											<div class="charact__left fwb">Электромонтажные работы</div>
+						<!--					<div class="charact__right">керамический камень, утеплитель, штукатурка</div>-->
+										</div>
+										<div class="charact__item">
+											<div class="charact__left fwb">Возведение перегородок</div>
+						<!--					<div class="charact__right">1</div>-->
+										</div>
+									<div class="charact__item">
+											<div class="charact__left fwb">Штукатурка стен, шпаклевание, покраска</div>
+							<!--				<div class="charact__right">4</div>-->
+										</div>
+										<div class="charact__item">
+											<div class="charact__left fwb">Облицовка стен и полов плиткой</div>
+							<!--				<div class="charact__right">Нет</div>-->
+										</div>
+							<!--			<div class="charact__item">
+											<div class="charact__left fwb">Стоимость проекта</div>
+											<div class="charact__right">150 000 BYN</div> 
+										</div> -->
+									</div>
+								</div>
+								
+								<div class="lastw-slider__btn">
+<!-- 									<a href="#" class="fancy-class btn bord">
+										<span class="btn-blick"></span>
+										<span class="tsm13 fwb black mrm">Отзыв клиента</span>
+									</a> -->
+									<a href="#quiz_content" class="btn link-scroll">
+										<span class="btn-blick"></span>
+										<span class="tsm13 fwb black mrm">Рассчитать в калькуляторе свой проект</span>
+									</a>
+								</div>
+								
+							</div>
+						</div>
+
+
+
+
+	                    <div class="lastw-slider__item">
+							<a data-fancybox="g" class="lastw-slider__left fancy-class" href="assets/img/lastw/3-01.jpg" style="background: url(assets/img/lastw/3-01.jpg) no-repeat right; background-size: cover;">								
+							</a>
+							<div class="lastw-slider__want" onclick="$('#consult-popup').fadeIn()">
+								<button class="btn btn-call-js" >
+									<span class="btn-blick"></span>
+									<span class="tsm13 fwb black">Хочу такой</span>
+								</button>
+							</div>
+							
+							
+							<div class="lastw-slider__right">
+								<a href="#smeta" class="green-text link-scroll tsm12">
+									<!-- <div class="green-text__cir mrs"></div> -->
+									<div class="green-text__text gt fw5 tsm12 white tac">
+										Запросить смету <br>
+										этого проекта
+									</div>		
+								</a>
+								<div class="text21 fwb mb">Баня под ключ</div>
+								<div class="tsm13 mbm"><span class="fwb">Адрес объекта:</span>г.Гомель ул.Киевская 41</div>
+								<div class="tsm13 msm"><span class="fwb">Время работы:</span> <span class="black tt">14 дней</span></div>
+
+								<div class="charact col-center msm">
+									<div class="text24 fwb mbm">Харакетристики</div>
+									<div class="charact__block col-center tsm13">
+										<div class="charact__item">
+											<div class="charact__left fwb">Площадь</div>
+											<div class="charact__right">50 кв.м.</div> 
+										</div>
+										<div class="charact__item">
+											<div class="charact__left fwb">Устройство фундамента</div>
+											<div class="charact__right">бетон</div>
+										</div>
+										<div class="charact__item">
+											<div class="charact__left fwb">Устройство стен</div>
+											<div class="charact__right">кирпич</div>
+										</div>
+										<div class="charact__item">
+											<div class="charact__left fwb">Устройство крыши</div>
+											<div class="charact__right">шивер</div>
+										</div>
+										<div class="charact__item">
+											<div class="charact__left fwb">Отделка фасада</div>
+											<div class="charact__right">керамический камень, утеплитель, штукатурка</div>
+										</div>
+									<div class="charact__item">
+											<div class="charact__left fwb">Установка окон и дверей</div>
+								<!--			<div class="charact__right">4</div>-->
+										</div>
+										<div class="charact__item">
+											<div class="charact__left fwb">Внутренняя отделка</div>
+								<!--			<div class="charact__right">Нет</div>--->
+										</div>
+								<!--		<div class="charact__item">
+											<div class="charact__left fwb">Стоимость проекта</div>
+											<div class="charact__right">150 000 BYN</div> 
+										</div> -->
+									</div>
+								</div>
+								
+								<div class="lastw-slider__btn">
+<!-- 									<a href="#" class="fancy-class btn bord">
+										<span class="btn-blick"></span>
+										<span class="tsm13 fwb black mrm">Отзыв клиента</span>
+									</a> -->
+									<a href="#quiz_content" class="btn link-scroll">
+										<span class="btn-blick"></span>
+										<span class="tsm13 fwb black mrm">Рассчитать в калькуляторе свой проект</span>
+									</a>
+								</div>
+								
+							</div>
+						</div>
+
+
+
+                        <div class="lastw-slider__item">
+							<a data-fancybox="g" class="lastw-slider__left fancy-class" href="assets/img/lastw/4-01.jpg" style="background: url(assets/img/lastw/4-01.jpg) no-repeat right; background-size: cover;">								
+							</a>
+							<div class="lastw-slider__want">
+								<button class="btn btn-call-js" onclick="$('#consult-popup').fadeIn()">
+									<span class="btn-blick"></span>
+									<span class="tsm13 fwb black">Хочу такой</span>
+								</button>
+							</div>
+						
+							
+							<div class="lastw-slider__right">
+								<a href="#smeta" class="green-text link-scroll tsm12">
+									<!-- <div class="green-text__cir mrs"></div> -->
+									<div class="green-text__text gt fw5 tsm12 white tac">
+										Запросить смету <br>
+										этого проекта
+									</div>		
+								</a>
+								<div class="text21 fwb mb">Строительство жилого дома</div>
+								<div class="tsm13 mbm"><span class="fwb">Адрес объекта:</span>Гомельский р-н пос.Урицкое, ул.Ятченко 79</div>
+								<div class="tsm13 msm"><span class="fwb">Время работы:</span> <span class="black tt">46 дней</span></div>
+
+								<div class="charact col-center msm">
+									<div class="text24 fwb mbm">Харакетристики</div>
+									<div class="charact__block col-center tsm13">
+										<div class="charact__item">
+											<div class="charact__left fwb">Площадь</div>
+											<div class="charact__right">90 кв.м.</div> 
+										</div>
+										<div class="charact__item">
+											<div class="charact__left fwb">Устройство ленточного фундамента</div>
+											<div class="charact__right">бетон</div>
+										</div>
+										<div class="charact__item">
+											<div class="charact__left fwb">Устройство стен</div>
+											<div class="charact__right">пгс</div>
+										</div>
+										<div class="charact__item">
+											<div class="charact__left fwb">Устройство крыши</div>
+											<div class="charact__right">мягкая черепица</div>
+										</div>
+								<!--		<div class="charact__item">
+											<div class="charact__left fwb">Отделка фасада</div>
+											<div class="charact__right">керамический камень, утеплитель, штукатурка</div>
+										</div>
+									<div class="charact__item">
+											<div class="charact__left fwb">Установка окон и дверей</div> 
+								<!--			<div class="charact__right">4</div>
+										</div>
+										<div class="charact__item">
+											<div class="charact__left fwb">Внутренняя отделка</div>-->
+								<!--			<div class="charact__right">Нет</div>
+										</div>
+								<!--		<div class="charact__item">
+											<div class="charact__left fwb">Стоимость проекта</div>
+											<div class="charact__right">150 000 BYN</div> 
+										</div> -->
+									</div>
+								</div>
+								
+								<div class="lastw-slider__btn">
+<!-- 									<a href="#" class="fancy-class btn bord">
+										<span class="btn-blick"></span>
+										<span class="tsm13 fwb black mrm">Отзыв клиента</span>
+									</a> -->
+									<a href="#quiz_content" class="btn link-scroll">
+										<span class="btn-blick"></span>
+										<span class="tsm13 fwb black mrm">Рассчитать в калькуляторе свой проект</span>
+									</a>
+								</div>
+								
+							</div>
+						</div>
+
+
+
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="section-wrap see__section-wrap" style="background: url(https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/bg-3.jpg) center 7vw no-repeat; background-size: auto">
+		<div class="see rel section">
+			<div class="see__green forest">
+				<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/green-1.png" alt="зелень">
+			</div>
+			<div class="see__green2 forest">
+				<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/green2-1.png" alt="">
+			</div>
+			<div class="see__cont container-min">
+				<div class="title-lg mb tac fw3">
+					Лучше <span class="fwb">один раз увидеть</span>
+				</div>
+				<div class="text24 gray tac">
+					Наша команда стремится к полной прозрачности в работе, поэтому <br>
+					мы с удовольствием показываем каждый процесс утепления, без прикрас.
+				</div>
+				<div class="see__people">
+					<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/people.png" alt="люди">
+				</div>
+				<div class="see__cloud">
+					<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/cloud.png" alt="облака">
+				</div>
+				<form class="see__form rel basic-form col-center" id="meeting-form">
+					<div class="basic-form__ico">
+						<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/target.png" alt="цель">
+					</div>
+					<div class="text-md fwb mbs tac">
+						Запишитесь на экскурсию <br>
+						по утепляемым домам,
+					</div>
+					<div class="tac mb text">
+						чтобы убедиться в нашем <br>
+						профессионализме вживую!
+					</div>
+					<div class="basic-form__block col-center">
+
+						<input type="hidden" name="title" value="Запишитесь на экскурсию">
+						<input type="text" required name="date" placeholder="Удобная дата и время" class="date tsm12 mbm input phone">
+						<input type="text" required name="tel" placeholder="+380 (--) --- -- --" class="tsm13 mbm ttu input phone">
+						<button class="btn mb" >
+							<span class="btn-blick"></span>
+							<span class="tsm13 fw6 black mrm">Записаться на экскурсию</span>
+						</button>
+					</div>
+					<label for="ps2" class="check-box">
+						<input type="checkbox" name="" id="ps2" class="rhide"  checked>
+								
+						<span class="check-line">
+							<span class="check-label">
+								<span class="check-label-act"><img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/check-ok.png" alt=""></span>
+							</span>
+							<span class="tsm10 gray tal fw4">
+								Согласен на	обработку 
+								<a href="#popup-policy" class="gr tdu fw4">персональных данных</a>
+							</span>
+						</span>
+					</label>
+				</form>
+			</div>
+		</div>
+		
+		
+	</div>
+	
+	<div id="charge" class="section charge rel">
+		<div class="container-min title-lg fw3">
+			Мы берем на себя полную <span class="fwb">материальную <br>
+			ответственность</span> и прописываем гарантии
+		</div>
+		<div class="charge__green forest">
+			<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/green-2.png" alt="">
+		</div>
+		<div class="charge__pen forest">
+			<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/pen.png" alt="">
+		</div>
+		
+		<div class="charge__block container-min">
+			<div class="charge__doc">
+				<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/doc.png" alt="">
+				<a id="dogovor" class="btn fancy-class charge__doc-btn mb">
+					<span class="btn-blick"></span>
+					<span class="tsm13 fwb black">Пример договора</span>
+				</a>
+				<div class="charge-faq row-center">
+					<div class="charge-faq__left mr">
+						<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/click.png" alt="">
+					</div>
+					<div class="charge-faq__text tsm12">
+						Можете ознакомиться <br>
+						или скачать пример <br>
+						договора прямо сейчас!
+					</div>
+				</div>
+			</div>
+			<div class="charge-block rel">
+				<div class="charge-block__item mb">
+					<div class="charge-block__wrap row-center">
+						<div class="charge-block__img">
+							<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/bl1-1.png" alt="">
+						</div>
+						<div class="charge-block__text">
+							<div class="text21 mbm fwb">
+								Соблюдаем сроки
+							</div>
+							<div class="tsm12 lhm">
+								Несем ответственность за<br>
+								соблюдение сроков выполнения<br>
+								работ. В случае срыва -<br>	
+								компенсируем убытки за свой счет
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="charge-block__item mb">
+					<div class="charge-block__wrap row-center">
+						<div class="charge-block__img">
+							<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/bl1-2.png" alt="">
+						</div>
+						<div class="charge-block__text">
+							<div class="text21 mbm fwb">
+								Исправляем <br>
+								за свой счет
+							</div>
+							<div class="tsm12 lhm">
+								Утерю материалов, любой дефект и<br>
+								несоотвествие характеристикам
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="charge-block__item">
+					<div class="charge-block__wrap row-center">
+						<div class="charge-block__img">
+							<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/bl1-3.png" alt="">
+						</div>
+						<div class="charge-block__text">
+							<div class="text21 mbm fwb">
+								Поэтапная оплата<br>
+								каждого вида работ
+							</div>
+							<div class="tsm12 lhm">
+								Оплата каждого вида работ разбита<br>
+								на 2 части ( 40% аванс , 60% по<br>
+								завершению )
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="charge-block__item">
+					<div class="charge-block__wrap row-center">
+						<div class="charge-block__img">
+							<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/bl1-4.png" alt="">
+						</div>
+						<div class="charge-block__text">
+							<div class="text21 mbm fwb">
+								Смета без<br>
+								скрытых платежей
+							</div>
+							<div class="tsm12 lhm">
+								Не поднимаем стоимость. Фиксируем<br>
+								стоимость работ в договоре. 
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="charge__man">
+				<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/man-1.png" alt="">
+			</div>
+			<div class="charge-block__work">
+				<div class="container-min title-lg fw3">
+					Работаем с <span class="fwb">минимальным</span> <br>
+					вашим участием
+				</div>
+				<div class="charge-block charge-block_2 rel">
+					<div class="charge-block__item mb">
+						<div class="charge-block__wrap row-center">
+							<div class="charge-block__img">
+								<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/bl2-1.png" alt="">
+							</div>
+							<div class="charge-block__text">
+								<div class="text21 mbm fwb">
+									Удобная форма оплаты
+								</div>
+								<div class="tsm12 lhm">
+									Оплата наличным и безналичным расчетом <br>	
+									в том числе на карту Приват Банка
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="charge-block__item mb">
+						<div class="charge-block__wrap row-center">
+							<div class="charge-block__img">
+								<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/bl2-2.png" alt="">
+							</div>
+							<div class="charge-block__text">
+								<div class="text21 mbm fwb">
+									Бесплатный <br>
+									замер
+								</div>
+								<div class="tsm12 lhm">
+									Предоставляем бесплатный замер<br>
+									и консультацию по проекту
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="charge-block__item">
+						<div class="charge-block__wrap row-center">
+							<div class="charge-block__img">
+								<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/bl2-3.png" alt="">
+							</div>
+							<div class="charge-block__text">
+								<div class="text21 mbm fwb">
+									Выполняем все работы<br>
+									ПОД КЛЮЧ
+								</div>
+								<div class="tsm12 lhm">
+									Работаем с минимальным участием<br> заказчика, что делает решение<br> вашего вопроса простым
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="charge-block__item">
+						<div class="charge-block__wrap row-center">
+							<div class="charge-block__img">
+								<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/bl2-4.png" alt="">
+							</div>
+							<div class="charge-block__text">
+								<div class="text21 mbm fwb">
+									Оптовые цены<br>
+									на материал
+								</div>
+								<div class="tsm12 lhm">
+									Получите самую лучшую цену<br>
+									на прямую с нашего склада 
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="section-wrap" style="background: url(https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/bg-4.jpg) center no-repeat; background-size: auto">
+		<div class="report rel section">
+			<div class="report__cont container-min">
+				<div class="report__left">
+					<div class="title mb fw3">Вы будете <span class="fwb">спокойны</span></div>
+					<div class="text23 mb">
+						Предоставляем полную<br>
+						отчетность о ходе работ
+					</div>
+					<div class="report__block mb">
+						<div class="report__item msm">
+							<div class="report__img mr">
+								<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/ico1.png" alt="">
+							</div>
+							<div class="report__text">
+								<div class="mb text-md fwb report__header">Фотоотчет</div>
+								<div class="tsm13">
+									2 раза в неделю отправляем фотографии о ходе <br>
+									утепления и отделки с полноценным отчетом <br>
+									о проделанной работе
+								</div>
+							</div>
+						</div>
+						<div class="report__item">
+							<div class="report__img mr">
+								<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/ico2.png" alt="">
+							</div>
+							<div class="report__text">
+								<div class="mb text-md fwb report__header">Связь</div>
+								<div class="tsm13">
+									Прораб всегда присутствует на объекте и <br>
+									контактирует с вами на всех этапах. <br>
+									Вы можете ему написать, позвонить <br>
+									или приехать на объект
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row-center report__wrap">
+						<div class="tsm13 fw7 black mrsm">
+							По любым возникающим <br>
+							у Вас вопросам о гарантиях <br>
+							смело звоните
+						</div>
+						<div class="call-block report__call-block col-center">
+							<a href="tel:+380677648039" class="call-block__item row-center" >
+								<div class="call-block__left row-center mrm">
+									<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/ph.png" alt="">
+								</div>
+								<div class="call-block__num fw7 gt black text-md">+38 067 764 80 39</div>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="report__right rel">
+					<div class="know-slider__wrap">
+						<div class="know-slider__img">
+							<button class="arrows lastw-arrow slideNext ksn t2"><img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/next-arrow.png" alt=""></button>
+							<button class="arrows lastw-arrow slidePrev ksp t2"><img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/next-arrow.png" alt=""></button>
+							<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/phone.png" alt="" class="know-phone">
+							<div class="report__green">
+								<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/green-3.png" alt="">
+							</div>
+						</div>
+						<div id="know-slider" class="know-slider">
+
+							<div class="know-slider__item" style="background: url(https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/01.jpg) no-repeat center; background-size: cover;">
+							</div>
+							<div class="know-slider__item" style="background: url(https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/01.jpg) no-repeat center; background-size: cover;">
+							</div>
+							<div class="know-slider__item" style="background: url(https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/01.jpg) no-repeat center; background-size: cover;">
+							</div>
+
+							<div class="know-slider__item" style="background: url(https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/01.jpg) no-repeat center; background-size: cover;">
+							</div>
+
+							<div class="know-slider__item" style="background: url(https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/01.jpg) no-repeat center; background-size: cover;">
+							</div>
+					
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<div id="smeta" class="rel section smeta" style="background: url() center no-repeat; background-size: cover;">
+			
+			<div class="smeta__house forest">
+				<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/house-2.png" alt="">
+			</div>
+			
+			<div class="smeta__cont container-min">
+				<div class="smeta__text rel">
+					<div class="title-lg mb fw3">
+						Заполните форму и <br> получите <span class="fwb">предварительную <br> смету</span>
+						по вашему объекту
+					</div>					
+
+				</div>
+				<div class="smeta__man card-js">
+					<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/man-2.png" alt="">
+					<div class="labels">
+						<div class="labels__item labels__item_1">
+							<div class="labels__text tsm12 fw4">Смету подготовит</div>
+						</div>
+						<div class="labels__item labels__item_2">
+							<div class="labels__text tsm12 fw3">Виталий Викторович</div>
+						</div>
+					</div>
+				</div>
+				<div class="smeta__list">
+					<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/list.png" alt="">
+					<div class="smeta-list row-center">
+						<div class="smeta-list__img mrs row-center">
+							<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/click-1.png" alt="">
+						</div>
+						<div class="smeta-list__text green tsm13">
+							Смета <br>
+							содержит
+						</div>
+						<div class="smeta-list__hover col-center">
+							<ul class="tsm13">
+								<li>Номер и дата сметы</li>
+								<li>Подрядчик</li>
+								<li>Заказчик</li>
+								<li>Наименование и краткая характеристика товара, услуги</li>
+								<li>Стоимость</li>
+							</ul>
+						</div>
+					</div>
+					<a id="smeta" class="fancy-class smeta-list smeta-list_2 row-center">
+						<div class="smeta-list__img smeta-list__img_2 mrs row-center">
+							<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/click2.png" alt="">
+						</div>
+						<div class="smeta-list__text fw6 smeta-list__text_2 tsm13">
+							Посмотреть <br> примеры сметы
+						</div>
+					</a>
+				</div>
+				<div class="smeta__right card-js rel">
+					<form class="smeta-form rel">
+						<div class="smeta-form__wrapper">
+							<input type="hidden" name="title" value="Получить смету">
+							<input type="hidden" name="formname" value="smeta">
+							<div class="smeta-form__ico">
+								<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/ico.png" alt="">
+							</div>
+							<div class="smeta-form__tool forest">
+								<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/tool.png" alt="">
+							</div>
+							<div class="text24 tac fwb mbm">Звоните</div>
+							<div class="smeta-form__wrap mb">
+								<div class="kr-text mr">
+									<div class="kr-text__cir mrm"></div>
+									<div class="kr-text__text green tsm13">
+										Сейчас мы работаем
+									</div>
+								</div>
+								<div class="header-call__ph-block text-md">
+									<div class="mrm smeta-form__ph col-center">
+										<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/ph.png" alt="">
+									</div>
+									<a href="tel:+380677648039" class="black fw7 header-call__num gt" >+38 067 764 80 39</a>
+								</div>
+							</div>
+							<div class="small-text mb tac">
+								или заполните форму, <br>
+								чтобы получить предварительную смету
+							</div>
+							<div class="smeta-form__block mbm">
+								<div class="smeta-form__left">
+									<div class="fcir fcir_1 text-md">
+										<b>1</b>
+									</div>
+								</div>
+								<div class="smeta-form__right">
+									<div class="tsm12 mbs tac">Какой дом вы хотите утеплить?</div>
+									<select name="place" class="input small-text mbm fancyselect">
+										<option value="Малоэтажный дом">Малоэтажный дом</option>
+										<option value="Многоквартирный дом">Многоквартирный дом</option>
+<!-- 										<option value="Квартира">Квартира</option> -->
+										<option value="Коммерческое помещение">Коммерческое помещение</option>
+<!-- 										<option value="Кафе">Кафе</option> -->
+									</select>
+								</div>
+							</div>
+							<div class="smeta-form__block mbm">
+								<div class="smeta-form__left">
+									<div class="fcir fcir_2 text-md">
+										<b>2</b>
+									</div>
+								</div>
+								<div class="smeta-form__right">
+									<div class="tsm12 tac mbs">Количество этажей</div>
+									<select name="floors" class="input small-text mbm fancyselect">
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="более 2-х">более 2-х</option>
+									</select>
+								</div>
+							</div>
+							<div class="smeta-form__block mb">
+								<div class="smeta-form__left">
+									<div class="fcir fcir_3 text-md">
+										<b>3</b>
+									</div>
+								</div>
+								<div class="smeta-form__right">
+									<div class="tsm12 tac mbs">Площадь фасада</div>
+									<select name="space" class="input small-text mbm fancyselect">
+										<option value="100 кв. м.">100 кв. м.</option>
+										<option value="200 кв. м.">200 кв. м.</option>
+										<option value="белее 200 кв. м.">белее 200 кв. м.</option>
+									</select>
+								</div>
+							</div>
+							<div class="smeta-form__block mb">
+								<div class="smeta-form__left">
+									<div class="fcir fcir_4 text-md">
+										<b>4</b>
+									</div>
+								</div>
+								<div class="smeta-form__right">
+									<div class="tsm12 tac mbs">Применяемый утеплитель</div>
+									<select class="input small-text mbm fancyselect" id="count-test" name="select" >
+										<option selected value="Пенополистерол">Пенополистерол(пенопласт)</option>
+										<option value="Минеральный утеплитель">Минеральный утеплитель</option>
+									</select>
+								</div>
+							</div>
+							<div class="text smeta-form__margin mb tac">Ваши контакты</div>
+							
+							<div class="smeta-form__block">
+								<div class="smeta-form__left smeta-form__left_bot">
+									<div class="fcir fcir_5 text-md">
+										<b>5</b>
+									</div>
+								</div>
+								<div class="smeta-form__right mbm">
+									<input type="text" required name="name" placeholder="Как Вас зовут?" class="mbs smeta-form__input tsm12 input">
+									<input class="input tsm12 smeta-form__input phone" placeholder="+380 (--) --- -- --" required type="tel" name="tel">
+								</div>						
+							</div>
+							<div class="smeta-form__block">
+								<div class="smeta-form__left smeta-form__left_last">
+									
+								</div>
+								<div class="smeta-form__right smeta-form__right_last">
+									<button class="btn mbm mb">
+										<span class="btn-blick"></span>
+										<span class="tsm13 black fwb ttu mrm">Получить смету</span>
+									</button>
+									<label for="p3" class="check-box">
+										<input type="checkbox" name="" id="p3" class="rhide" required="" checked>
+									
+										<span class="check-line">
+											<span class="check-label">
+												<span class="check-label-act"><img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/check-ok.png" alt=""></span>
+											</span>
+											<span class="tsm10 white-space gray tal fw6">
+												Согласен на
+												<a href="#popup-policy" class="gr tdu fw6">обработку персональных данных</a>
+											</span>
+										</span>
+									</label>
+								</div>						
+							</div>
+						</div>
+						
+					</form>
+
+				</div>
+			</div>
+			
+		</div>
+		</div>
+	
+
+	
+	
+
+	<div id="contacts" class="contacts">
+		
+		<div class="map" id="map"><iframe  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2535.308699631015!2d30.228087115898752!3d50.54702898828199!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x472b319494538a17%3A0xcebc9e1d924cc503!2z0YPQuy4g0JjQstCw0L3QsCDQmtC-0LbQtdC00YPQsdCwLCAz0LAsINCR0YPRh9CwLCDQmtC40LXQstGB0LrQsNGPINC-0LHQu9Cw0YHRgtGMLCDQo9C60YDQsNC40L3QsCwgMDgyOTI!5e0!3m2!1sru!2sru!4v1658840859059!5m2!1sru!2sru" width="100%" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+		<div class="contacts__wrapper">
+			<div class="contacts__block card-js rel">
+				<div class="contacts-block ">					
+					<div class="contacts-block__left">
+						<div class="text21 tac mb fwb">
+							Наши контакты
+						</div>
+						<div class="header-call__ph-block text mbm">
+							<div class="header-call__img mrm">
+								<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/ph.png" alt="">
+							</div>
+							<div class="header-call__wrap col-center">
+								<a href="tel:+380677648039" class="link-hover black gt fw7 header-call__num" >+38 067 764 80 39</a>
+<!-- 								<a href="tel:+375 29 111 04 34" class="link-hover black gt fw7 header-call__num" >+375 29 111 04 34</a> -->
+							</div>
+						</div>
+						<div class="col-center mb contacts__info">
+							<div class="row-center mbs">
+								<div class="contacts__ico mrs row-center">
+									<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/clock.png" alt="">
+								</div>
+								<div class="tsm13">Пн-Пт с 9:00 до 18:00</div>
+							</div>
+							<div class="row-center mbs">
+								<div class="contacts__ico mrs row-center">
+									<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/target-1.png" alt="">
+								</div>
+								<div class="tsm13">г. Буча ул. Кожедуба д. 3А</div>
+							</div>
+							<div class="row-center mb">
+								<div class="contacts__ico mrs row-center">
+									<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/mas.png" alt="">
+								</div>
+								<a href="mailto:info@fasad-master.com.ua" class="link-hover black tsm13">info@fasad-master.com.ua</a>
+							</div>
+						</div>
+				<!--	<div class="tac fwb mbm text23">Реквизиты</div>
+						<div class="tac tsm12">
+							ОГРН 1107847220667 <br>
+							ИНН/КПП 7840435320/784201001
+						</div> -->
+					</div> 
+					<div class="contacts-block__right">
+						<div class="text tac mbm fwb">
+							Остались вопросы? Смело звоните!
+						</div>
+						<div class="kr-text mbm">
+							<div class="kr-text__cir mrm"></div>
+							<div class="kr-text__text green tsm13">
+								Сейчас мы работаем
+							</div>
+						</div>
+						<div class="header-call__ph-block text">
+							<div class="header-call__img mrm">
+								<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/ph.png" alt="">
+							</div>
+							<div class="header-call__wrap col-center">
+								<a href="tel:+38 067 764 80 39" class="black gt fw7 header-call__num" >+38 067 764 80 39</a>
+							</div>
+						</div>
+						<button class="btn header-btn btn-call-js mb" onclick="$('#consult-popup').fadeIn()">
+							<span class="btn-blick"></span>
+							<img class="btn-ico btn-ico_left" src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/ph2.png" alt="">
+							<div class="fw6 tal black tsm13">
+								Перезвоните мне
+							</div>
+						</button>
+						<div class="tsm13 tac mbm">
+							Или задайте вопрос напрямую в:
+						</div>
+						<div class="kr-text mbm">
+							<div class="kr-text__cir mrm"></div>
+							<div class="kr-text__text green tsm13">
+								Среднее время ответа 1 минута
+							</div>
+						</div>
+						<div class="contacts-social mb row-center tsm12">
+							<a href="viber://add?number=380677648039" class="contacts-social__item row-center mr" >
+								<div class="contacts-social__img row-center mrs">
+									<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/vb.png" alt="">
+								</div>
+								<div class="contacts-social__text blue">Viber</div>
+							</a>
+<!-- 
+							<a href="">
+								<div class="contacts-social__img row-center mrs">
+									<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/ws.png" alt="">
+								</div>
+								<div class="contacts-social__text blue">WhatsApp</div>
+							</a> -->
+
+<!--							<a href="#" class="contacts-social__item row-center">
+								<div class="contacts-social__img row-center mrs">
+									<img src="assets/img/icons/inst.png" alt="">
+								</div>
+								<div class="contacts-social__text blue">Instagram</div>
+							</a>
+-->						</div>
+						
+<!-- 						<div class="tsm13 tac mbm fwb">
+							Присоединяйтесь к нам в социальных сетях
+						</div>
+						<div class="contacts-block__social row-center">
+							<a href="#" class="contacts-block__item row-center mrs">
+								<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/fb.png" alt="">
+							</a>
+							<a href="#" class="contacts-block__item row-center">
+								<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/vk.png" alt="">
+							</a>
+						</div> -->
+					</div>
+				</div>			
+			</div>
+		</div>
+	</div>
+
+<!-- 	<div id="footer" class="footer">
+		<div class="footer__cont container-min">
+			<div class="logo">
+				<div class="logo__block">
+					<a href="" class="logo__img">
+						<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/02/fasad-master-logo.png" alt="">
+					</a>
+
+					<div class="logo__text white">
+						<div class="text fw6">Утепление домов</div>
+						<div class="tsm12 fw4">
+							в Буче, Гостомеле и Ирпене
+						</div>
+					</div>
+				</div>					
+			</div>
+			<div class="footer__item">
+				<div class="fwb white tsm13 mbm">Меню сайта</div>
+				<ul class="footer-nav fw4 tsm12">
+					<li class="mbs"><a class="white" href="/">Главная</a></li>
+					<li class="mbs"><a class="white" href="#test">Расчет стоимости</a></li>
+					<li class="mbs"><a class="white" href="#garant">Услуги</a></li>
+					<li class="mbs"><a class="white" href="#portfolio">Портфолио</a></li>
+					<li class="mbs"><a class="white" href="#about">Наше команда</a></li>
+					<li class="mbs"><a class="white" href="#charge">Гарантии</a></li>
+					<li><a class="white" href="#contacts">Контакты</a></li>
+				</ul>
+			</div>
+			<div class="footer__item">
+				<div class="footer__link mbs">
+					<div class="footer__img mrs">
+						<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/ico-1.png" alt="">
+					</div>
+					<a href="assets/img/charge/doc.docx" class="footer__link-text dotted  yellow fw3 tsm13">
+						Скачать договор
+					</a>
+				</div>
+				<div class="footer__link mbs">
+					<div class="footer__img mrs">
+						<img data-src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/ico-1.png" alt="">
+					</div>
+					<a href="#download" class="footer__link-text dotted  yellow fw3 tsm13 link-scroll">
+						Скачать прайс-лист
+					</a>
+				</div>
+				<div class="footer__link">
+					<div class="footer__img mrs">
+						<img data-src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/ico-1.png" alt="">
+					</div>
+					<a id="#smeta" href="#smeta" class="footer__link-text dotted  yellow fw3 tsm13 link-scroll">
+						Получить смету
+					</a>
+				</div>
+			</div>
+
+		</div>
+		</div> -->
+	
+	
+<div class="popup" id="popup-dogovor" style="display: none;">
+    <div class="popup-wrap">
+      <div class="policy container">
+        <div class="close"></div>
+        <div class="title policy-title">Пример договора</div>
+<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/1-01.jpg" alt="">
+      </div>
+    </div>
+  </div>
+	
+		
+<div class="popup" id="popup-smeta" style="display: none;">
+    <div class="popup-wrap">
+      <div class="policy container">
+        <div class="close"></div>
+        <div class="title policy-title">Пример сметы</div>
+<img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/1-01.jpg" alt="">
+      </div>
+    </div>
+  </div>
+	
+	
+	
+	
+	
+	
+	
+    <?php if( have_rows('order') ):
+          while ( have_rows('order') ) : the_row();
+            if( get_row_layout() == 'portfolio' ) : ?>
+              <?php include_once 'template-parts/portfolio.php' ?>
+            <?php endif; ?>
+            <?php if( get_row_layout() == 'editor' ) : ?>
+	
+	
+	
+   
+	
+              <section class="container editor">
+                <h2 class="portfolio__title text-center">
+                  <?php echo get_field('editor_title') ?>
+                </h2>
+                <?php the_content() ?>
+              </section>
+            <?php endif; ?>
+            <?php if( get_row_layout() == 'action-call' ) : ?>
+              <?php include_once 'template-parts/action.php' ?>
+            <?php endif; ?>
+            <?php if( get_row_layout() == 'quiz' ) : ?>
+              <div class="open-quiz" id="quiz_content" style="position: relative; z-index: 3;">
+                <h2 class="portfolio__title text-center">
+                  <?php echo get_field('quiz_title') ?>
+                </h2>
+                <?php include_once 'template-parts/quiz.php' ?>
+              </div>
+            <?php endif; ?>
+          <?endwhile;
+     ?>
+    <?php
+      else:
+    ?>
+    <?php include_once 'template-parts/portfolio.php' ?>
+    <?php if (get_the_content()): ?>
+    <section class="container editor">
+      <h2 class="portfolio__title text-center">
+        <?php echo get_field('editor_title') ?>
+      </h2>
+      <?php the_content() ?>
+    </section>
+    <?php endif ?>
+    <?php if($portfolio || get_the_content()): ?>
+      
+    <?php endif; ?>
+    <?php if (get_field('quiz_type') == 'open'): ?>
+	    <div class="open-quiz" id="quiz_content" style="position: relative; z-index: 3;">
+			<h2 class="portfolio__title text-center">
+				<?php echo get_field('quiz_title') ?>
+			</h2>
+			<?php include_once 'template-parts/quiz.php' ?>
+		</div>
+    <?php endif; ?>
+    <?php endif; ?>
+    <?php include_once 'template-parts/widget.php' ?>
+    <?php include_once 'template-parts/video.php' ?>
+    
+	<?php
+	if (get_field('quiz_type') == 'closed'):
+	
+	?>
+	    <div class="popup" id="quiz">
+      <div class="popup-wrap" id="quiz_content">
+        <?php include_once 'template-parts/quiz.php' ?>
+      </div>
+    </div>
+	<?php endif; ?>
+
+    <?php include_once 'template-parts/popup.php' ?>
+
+    <?php get_footer() ?>
+
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css">   
+    <?php 
+    if ($portfolio):
+    ?>
+
+      <link rel="stylesheet" href="<?php echo QUIZ_CSS_PATH ?>slick.css">
+      <script src="<?php echo QUIZ_JS_PATH ?>slick.js"></script>
+<!--       <script>
+        $('.portfolio__slider').slick({
+          autoplay: true,
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          dots: true,
+          arrows: true,
+          fade: true,
+          appendArrows: $(".portfolio__slider__arrows"),
+          appendDots: $(".portfolio__slider__dots"),
+          lazyLoad: 'ondemand',
+          prevArrow: '<button type="button" class="slider-prev slider-arrow"></button>',
+          nextArrow: '<button type="button" class="slider-next slider-arrow"></button>',
+          responsive: [
+            {
+              breakpoint: 699,
+              settings: {
+                slidesToShow: 1,
+              }
+            },
+          ]
+        });
+      </script> -->
+    <?php endif ?>
+<?Php 
+
+wp_footer()
+
+?>
+	<?php if (get_field('quiz_type') == 'closed'): ?>
+	<script>
+	$('.quiz__btn-prev, .quiz__btn-next').on('click', function(){
+		$('.popup-wrap').animate({scrollTop: 50}, 1000);
+	})
+		$('.quiz__question input[type="radio"]').on('change', function(){
+			$('.popup-wrap').animate({scrollTop: 50}, 1000);
+		})
+	</script>
+  <?php else :?>
+    <script>
+	$('.quiz__btn-prev, .quiz__btn-next').on('click', function(){
+		$('body, html').animate({scrollTop: $('#quiz_content').offset().top}, 1000);
+	})
+		$('.quiz__question input[type="radio"]').on('change', function(){
+			$('body, html').animate({scrollTop: $('#quiz_content').offset().top}, 1000);
+		})
+	</script>
+  <?php endif ?>
+	<?php if (get_field('analitycs', 'options')): ?>
+<script>
+      $('.quiz__answer__label').on('click', function(){
+		   gtag('event','quiz_' + $(this).data('metrics'), {'event_category' : 'label'});
+      })
+      $('.quiz__btn-next').on('click', function(){
+          gtag('event','quiz_' + $(this).data('metrics'), {'event_category' : 'label'});
+       })	
+</script>
+	<?php endif; ?>
+	
+<!-- 	<script>
+	$('#know-slider').slick({
+		   slidesToShow: 4,
+		   slidesToScroll: 1,
+		   arrows: false,
+		   autoplay:true,
+		   autoplaySpeed: 3000,
+		   dots: false,
+		     responsive: [
+
+		     {
+		       breakpoint: 776,
+		       settings: {
+		         slidesToShow: 4,
+		         autoplay: false,
+		       }
+		     },
+		     {
+		       breakpoint: 576,
+		       settings: {
+		         slidesToShow: 1,
+		         autoplay: false,
+		       }
+		     },
+
+		   ]
+		   // fade: true
+		 });
+		
+		$('.ksp').on('click', function(event) {
+		  $('#know-slider').slick('slickPrev');
+		});
+		$('.ksn').on('click', function(event) {
+		  $('#know-slider').slick('slickNext');
+		});
+	</script> -->
+	
+	<script>
+	
+$('.btn-port-bl').on('click', function(event) {
+  event.preventDefault();
+  $(this).toggleClass('show');
+  if($(this).hasClass('show')){
+    $(this).find('b').text('Скрыть');
+    $('.portfolio__item').fadeIn();
+
+    $('.portfolio__slider-top').slick('setPosition');
+    $('.portfolio__slider-bot').slick('setPosition');
+
+  }else{
+    $(this).find('b').text('Показать еще');
+    
+        $('.portfolio__item').each(function(index, el) {
+          
+            if(index < 5){
+              $(this).fadeIn();
+            }else{
+              $(this).hide();
+            }
+        });
+    $('.portfolio__slider-top').slick('setPosition');
+    $('.portfolio__slider-bot').slick('setPosition');
+      var id = $(this).attr('href'), top = $(id).offset().top;
+      $('body,html').animate({scrollTop: top}, 600);
+  }
+});
+	</script>
+	
+	<script>
+
+		$('.garant-tab__tab-item').on('click', function(event) {
+		  event.preventDefault();
+		  if(!$(this).hasClass('current-tab-item')){
+		    $('.garant-tab__tab-item').removeClass('current-tab-item');
+		    $(this).addClass('current-tab-item');
+		    $('.garant-tab__tab-cont').hide().eq($(this).index()).fadeIn(0);
+		    $('.garant-tab__options').hide().eq($(this).index()).fadeIn(0);
+		  }
+		});
+
+		$('#lastw-slider').slick({
+		   slidesToShow: 1,
+		   slidesToScroll: 1,
+		   nextArrow: '<button class="arrows slideNext lastw-right"><img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/next-arrow.png" alt=""></button>',
+		   prevArrow: '<button class="arrows slidePrev lastw-left"><img src="https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/07/prev-arrow.png" alt=""></button>',
+		   dots: false,
+		   //autoplay:true,
+		   //autoplaySpeed: 5000,
+		     responsive: [
+
+		     {
+		       breakpoint: 776,
+		       settings: {
+		         slidesToShow: 1,
+		         autoplay: false,
+		       }
+		     },
+		     {
+		       breakpoint: 576,
+		       settings: {
+		         slidesToShow: 1,
+		         autoplay: false,
+		       }
+		     },
+
+		   ]
+		   // fade: true
+		 });
+
+		$('#know-slider').slick({
+		   slidesToShow: 4,
+		   slidesToScroll: 1,
+		   arrows: false,
+		   autoplay:true,
+		   autoplaySpeed: 3000,
+		   dots: false,
+		     responsive: [
+
+		     {
+		       breakpoint: 776,
+		       settings: {
+		         slidesToShow: 4,
+		         autoplay: false,
+		       }
+		     },
+		     {
+		       breakpoint: 576,
+		       settings: {
+		         slidesToShow: 1,
+		         autoplay: false,
+		       }
+		     },
+
+		   ]
+		   // fade: true
+		 });
+
+		$('.ksp').on('click', function(event) {
+		  $('#know-slider').slick('slickPrev');
+		});
+		$('.ksn').on('click', function(event) {
+		  $('#know-slider').slick('slickNext');
+		});
+
+
+
+	</script>
+	
+	<script>
+	var offsetTop = $(window).height()*2;
+    $(window).scroll(function(event) {
+      if($(document).scrollTop() > offsetTop ){
+        $('.to_top').addClass('act');
+      }else{
+        $('.to_top').removeClass('act');
+      }
+    });
+$(".to_top").on("click", function (event) {
+      var top = 0;
+      $('body,html').animate({scrollTop: top}, 1000);
+    });
+	</script>
+	
+	<script>
+
+
+$('.close, .back-close').on('click', function(event) {
+	event.preventDefault();
+  if($(this).hasClass('close-nav')){
+		$(".nav__wrap").removeClass('active');
+    $('.nav-overlay').fadeOut();
+	}
+  
+});
+	</script>
+
+	<script>
+$('.burger__wrap').on('click', function(event) {
+  event.preventDefault();
+  $('.nav__wrap').addClass('active');
+  $('.nav-overlay').fadeIn();
+  $('.card-js').addClass('zi0');
+  $('.arrows').addClass('zi1');
+});
+	</script>
+	
+	<script>
+	$(".btn-nav-calc").on("click", function (event) {
+  
+    $(".nav__wrap").removeClass("active");
+    $('html').removeClass('stop');
+
+    var id = $('#test-c').offset().top;
+    $('body,html').animate({scrollTop: id}, 1000);
+
+});
+	</script>
+	
+	<script>
+	
+$(".nav a, .footer-nav a").on("click", function (event) {
+  
+
+  if($(this).attr('href') === '#not'){
+    return false;
+  }else{
+    if($(this).parents(".nav__wrap").hasClass('active')){
+      if($(window).width() < 900){
+        $(".nav__wrap").removeClass("active");
+        $('.overlay').fadeOut();
+        $('html').removeClass('stop');
+      }
+      
+    }
+    var id = $(this).attr('href'), top = $(id).offset().top;
+    $('body,html').animate({scrollTop: top}, 1000);
+  }
+
+});
+	</script>
+	
+	<script>
+	$("input[name='soc']").on('change, input', function() {
+
+  if($(this).hasClass('vit')){
+    $('.check-block-btn').attr('placeholder', 'Ваш телефон в Viber');
+    $('.check-block-mail').hide()
+  }else if($(this).hasClass('teg')){
+    $('.check-block-btn').attr('placeholder', 'Ваш телефон в Telegram');
+    $('.check-block-mail').hide()
+  }else if($(this).hasClass('wat')){
+    $('.check-block-btn').attr('placeholder', 'Ваш телефон в WhatsApp');
+    $('.check-block-mail').hide()
+  }else if($(this).hasClass('mail')){
+    $('.check-block-btn').attr('placeholder', 'Ваш телефон');
+    $('.check-block-mail').fadeIn();
+    $('.check-block-mail').attr('placeholder', 'Ваш E-mail аддреc ');
+  }
+
+});
+	</script>
+	
+	<script>
+	 d = new Date();
+  monthA = 'января,февраля,марта, апреля, мая, июня, июля, августа, сентября, октября, ноября, декабря'.split(',');
+  d.setMonth(d.getMonth() + 1);
+  $('.date-js').text( d.getDate() +'.' + d.getMonth() + '.' + d.getFullYear());
+	</script>
+	
+	<script>
+	 $("input[name='tel']").mask("+38-(099)-999-99-99");
+	</script>
+	
+	<script>
+	const btn =document.getElementById("dogovor");
+		btn.addEventListener("click", openDogovor);
+		
+		
+		function openDogovor(e){
+			
+			const dogovor=document.getElementById("popup-dogovor");
+			dogovor.style="display:block";
+		}
+	</script>
+	
+		<script>
+	const btnSmeta =document.getElementById("smeta");
+		btnSmeta.addEventListener("click", openSmeta);
+		
+		
+		function openSmeta(e){
+			
+			const dogovor=document.getElementById("popup-smeta");
+			dogovor.style="display:block";
+		}
+	</script>
+	
+	<script>
+      $('#discuss-form').submit(function(e){
+        e.preventDefault();
+        var form = new FormData(this);
+// 		  $('#form-zamer .btn__load').show();
+// 		  $('#form-zamer .btn-text').hide();
+		  
+        $.ajax({
+            url: '/?send_request_discuss=1',
+            data: form,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            success: function (response) {
+                location.href = 'https://fasad-master.com.ua/uteplenie-fasadov/thanks/';
+            }
+        });
+    })
+    </script>
+	
+	<script>
+      $('#download-price').submit(function(e){
+        e.preventDefault();
+        var form = new FormData(this);
+		  var file = 'https://fasad-master.com.ua/uteplenie-fasadov/wp-content/uploads/2022/02/price.png';
+		if (file){
+			var link = document.createElement('a');
+		    link.setAttribute('href', file);
+		    link.setAttribute('download','download');
+		    link.click();
+		}
+// 		  $('#form-zamer .btn__load').show();
+// 		  $('#form-zamer .btn-text').hide();
+		  
+        $.ajax({
+            url: '/?send_request_download=1',
+            data: form,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            success: function (response) {
+                location.href = 'https://fasad-master.com.ua/uteplenie-fasadov/thanks/';
+            }
+        });
+    })
+    </script>
+	<script>
+      $('#meeting-form').submit(function(e){
+        e.preventDefault();
+        var form = new FormData(this);
+// 		  $('#form-zamer .btn__load').show();
+// 		  $('#form-zamer .btn-text').hide();
+		  
+        $.ajax({
+            url: '/?send_request_meeting=1',
+            data: form,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            success: function (response) {
+				console.log(response, form)
+                 location.href = 'https://fasad-master.com.ua/uteplenie-fasadov/thanks/';
+            }
+        });
+    })
+    </script>
+</body>
+</html>
